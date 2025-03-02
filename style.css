@@ -9,12 +9,24 @@
     border: 1px solid blue;
     margin: 100px auto;
     max-width: 250px;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 1fr 2fr;
     gap: 5px;
     background-color: #fff;
     border-radius: 10px;
     padding: 10px;
+}
+
+.display {
+    width: 230px;
+    height: 150px;
+    border-radius: 5px;
+}
+
+.btn_container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
 }
 
 .main_container {
