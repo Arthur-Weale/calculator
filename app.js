@@ -2,7 +2,7 @@
 let firstNumber = "";
 let secondNumber = "";
 let operator = null;
-let clicked = false;
+let justCalculated = false;
 const numberButtons = document.querySelectorAll(".number");
 const operators = document.querySelectorAll(".operator");
 const display = document.querySelector("input");
@@ -13,14 +13,12 @@ const deleteEntry = document.querySelector(".del");
 display.value = 0;
 
 clear.addEventListener("click", ()=> {
-    clicked = true;
     display.value = "";
     firstNumber = "";
     secondNumber = "";
     operator = null;
-    if(clicked){ 
-        display.value = 0;
-    }
+    display.value = 0;
+    
 })
 
 deleteEntry.addEventListener("click", ()=> {
@@ -32,16 +30,49 @@ deleteEntry.addEventListener("click", ()=> {
     display.value = display.value.slice(0,-1);
 })
 
+function isOpNum(){
+    return /^[0-9+\-*/]$/
+}
+
+let regex = isOpNum();
+//let checked = check.test()
+
+document.addEventListener("keyup", (e) =>{
+    const pressedKey = e.key;
+
+    if(display.value === "0") {
+        display.value = ""; 
+    }
+
+    if (justCalculated && operator === null && firstNumber !== "") {
+        firstNumber = "";
+        display.value = "";
+        justCalculated = false;
+    }
+
+    if(operator === null ){
+        firstNumber += e.key;
+        console.log(firstNumber);
+        display.value += e.key;
+        
+    }
+    else {
+        secondNumber += e.key;
+        display.value += e.key;
+    }
+})
 
 numberButtons.forEach(btn => {
     btn.addEventListener("click", function(e){
-        //display.value = "";
-        clicked = true
-
         if(display.value === "0") {
             display.value = ""; 
         }
-        
+
+        if (justCalculated && operator === null && firstNumber !== "") {
+            firstNumber = "";
+            display.value = "";
+            justCalculated = false;
+        }
         if(operator === null){
             firstNumber += e.target.value;
             console.log(firstNumber);
@@ -101,7 +132,8 @@ equals.addEventListener("click", ()=>{
     display.value = answer;
     firstNumber = answer.toString();
     secondNumber = "";
-    operator = "";
+    operator = null; 
+    justCalculated = true;   
 })
 
 function operate(firstNumber, operator, secondNumber){
