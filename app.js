@@ -30,14 +30,14 @@ deleteEntry.addEventListener("click", ()=> {
     display.value = display.value.slice(0,-1);
 })
 
-function isOpNum(){
-    return /^[0-9+\-*/]$/
-}
+// function isOpNum(){
+//     return /^[0-9+\-*/]$/
+// }
 
-let regex = isOpNum();
+let regex = /^[0-9+\-*/]$/;
 //let checked = check.test()
 
-document.addEventListener("keyup", (e) =>{
+document.addEventListener("keydown", (e) =>{
     const pressedKey = e.key;
 
     if(display.value === "0") {
@@ -50,16 +50,20 @@ document.addEventListener("keyup", (e) =>{
         justCalculated = false;
     }
 
-    if(operator === null ){
+    if(regex.test(e.key)){
+        e.preventDefault();
+        if(operator === null){
         firstNumber += e.key;
         console.log(firstNumber);
         display.value += e.key;
         
+        }
+        else {
+            secondNumber += e.key;
+            display.value += e.key;
+        }
     }
-    else {
-        secondNumber += e.key;
-        display.value += e.key;
-    }
+    
 })
 
 numberButtons.forEach(btn => {
